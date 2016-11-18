@@ -3,10 +3,14 @@ This is the source code for the production of the Collider album. All tracks are
 Note that this is only the production stage, anything you get from compiling will be UNMIXED and UNMASTERED and therefore not the final product.
 
 Dependencies:
-	Csound 		http://csound.github.io/
-	
-Optional Dependencies:
-	texlive 	https://www.tug.org/texlive/
-	ffmpeg		https://ffmpeg.org/
-	mpv 		https://mpv.io/
-	zathura 	https://pwmt.org/projects/zathura/
+	Required:
+		Csound 		http://csound.github.io/
+		texlive 	https://www.tug.org/texlive/
+
+	Recommended:
+		make 		https://www.gnu.org/software/make/
+		ffmpeg		https://ffmpeg.org/
+		
+	Optional:
+		mpv 		https://mpv.io/
+		zathura 	https://pwmt.org/projects/zathura/
