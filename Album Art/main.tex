@@ -1,0 +1,36 @@
+\documentclass[17pt]{extarticle}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+\usetikzlibrary{calc, shapes}
+\geometry{paperwidth=28cm, paperheight=28cm}
+
+\colorlet{artist}{black!800!white!980!yellow}
+\colorlet{album}{black!880!white!95!yellow}
+\colorlet{page}{black!30!white!85!yellow}
+
+
+\begin{document}
+\pagestyle{empty}
+\pagecolor{page}
+\Huge\noindent
+\color{artist}{Vent Lion} \\
+\Large\it
+\hspace{18mm}\color{album}{Collider}
+\begin{center}
+\begin{tikzpicture}[scale=4]
+
+\foreach \x [
+    evaluate=\x as \grad using int(100-(\x*15)),
+    evaluate=\x as \deg using int(\x*60)
+    ] in {1,2,3,4,5,6}{
+    \coordinate (n\x) at ({90+60*\x}:5mm);
+    \begin{scope}[rotate=\deg]
+    \fill[artist!\grad!page!] (0,0) --++ (150:5mm) --++ (210:5mm) --++ (270:1cm) --++ (330:1.5cm) --++ (390:1.5cm) --++ (90:5mm) --++ (210:1.5cm) --++ (150:1cm) --++ (90:5mm) -- cycle;
+    \end{scope}
+}
+\end{tikzpicture}
+\end{center}
+\end{document}
