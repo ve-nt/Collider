@@ -9,3 +9,10 @@ main.flac: main.wav
 
 test: main.flac
 	mpv main.flac
+
+clean: 
+	rm *.wav || \
+	rm stems/*.wav || \
+	rm *.flac || \
+	rm *.mp3 || \
+	rm .*.swp
