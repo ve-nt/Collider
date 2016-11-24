@@ -34,6 +34,14 @@ garl14 	init 	0
 garr14 	init 	0
 garl15 	init 	0
 garr15 	init 	0
+garl16 	init 	0
+garr16 	init 	0
+garl17 	init 	0
+garr17 	init 	0
+garl18 	init 	0
+garr18 	init 	0
+garl19 	init 	0
+garr19 	init 	0
 
 garl101 init 	0
 garr101 init 	0
@@ -485,7 +493,7 @@ garr13 	= 	aout
 
 	endin
 
-	instr 14
+	instr 14; Snare
 
 idur 	= p3
 iamp 	= p4
@@ -559,8 +567,8 @@ asig 	pluck 	iamp*kenv, kcps+klcps, icps, ifn, imeth
 	outs 	asig, asig
 garvb 	= 	garvb+(asig*irvb)
 
-garl05 	= 	asig
-garr05 	= 	asig
+garl16 	= 	asig
+garr16 	= 	asig
 	endin
 
 	instr 17; Oscil FRQ rise
@@ -568,8 +576,8 @@ garr05 	= 	asig
 idur 	= p3
 iamp 	= p4
 ifrq 	= cpspch(p5)
+ifn 	= p6
 
-ifn 	= 1
 iamp1	= 0
 irise 	= 1.4
 idec 	= .2
@@ -578,6 +586,47 @@ kenv 	linen 	iamp, irise, idur, idec
 aout 	oscil 	kenv, ifrq, ifn
 	outs 	aout, aout
 
+garl17 	= 	aout
+garr17 	= 	aout
+	endin
+
+	instr 18
+
+idur 	= p3
+iamp 	= p4
+itype 	= p5
+icps1 	= p6
+icps2 	= p7
+
+ipana 	= 1
+ipanf 	= .5
+
+kcps 	expon 		icps1, idur, icps2
+krange 	lfo 		iamp, kcps, itype
+aout 	bexprnd 	krange
+kpan 	lfo 		ipana, ipanf
+	outs 		aout*kpan, aout*(1-kpan)
+
+garl18 	= 	aout*kpan
+garr18 	= 	aout*(1-kpan)
+	endin
+
+	instr 19; Oscil FRQ rise
+
+idur 	= p3
+iamp 	= p4
+ifrq 	= cpspch(p5)
+
+ifn 	= 1
+irise 	= 1.4
+idec 	= .2
+
+kenv 	linen 	iamp, irise, idur, idec
+aout 	oscil 	kenv, ifrq, ifn
+	outs 	aout, aout
+
+garl19 	= 	aout
+garr19 	= 	aout
 	endin
 
 	instr 100; Stem Generator
@@ -599,6 +648,10 @@ aout 	oscil 	kenv, ifrq, ifn
 	fout 	"stems/013.wav", itype, garl13, garr13
 	fout 	"stems/014.wav", itype, garl14, garr14
 	fout 	"stems/015.wav", itype, garl15, garr15
+	fout 	"stems/016.wav", itype, garl16, garr16
+	fout 	"stems/017.wav", itype, garl17, garr17
+	fout 	"stems/018.wav", itype, garl18, garr18
+	fout 	"stems/019.wav", itype, garl19, garr19
 
 	fout 	"stems/101.wav", itype, garl101, garr101
 	fout 	"stems/102.wav", itype, garl102, garr102
@@ -619,6 +672,10 @@ aout 	oscil 	kenv, ifrq, ifn
 	clear 	garl13, garr13
 	clear 	garl14, garr14
 	clear 	garl15, garr15
+	clear 	garl16, garr16
+	clear 	garl17, garr17
+	clear 	garl18, garr18
+	clear 	garl19, garr19
 
 	clear 	garl101, garr101
 	clear 	garl102, garr102
