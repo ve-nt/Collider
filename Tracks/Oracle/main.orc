@@ -588,6 +588,7 @@ aout 	oscil 	kenv, ifrq, ifn
 
 garl17 	= 	aout
 garr17 	= 	aout
+
 	endin
 
 	instr 18; Rumble
