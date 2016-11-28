@@ -590,7 +590,7 @@ garl17 	= 	aout
 garr17 	= 	aout
 	endin
 
-	instr 18
+	instr 18; Rumble
 
 idur 	= p3
 iamp 	= p4

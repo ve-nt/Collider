@@ -30,6 +30,18 @@ garl12 	init 	0
 garr12 	init 	0
 garl13 	init 	0
 garr13 	init 	0
+garl14 	init 	0
+garr14 	init 	0
+garl15 	init 	0
+garr15 	init 	0
+garl16 	init 	0
+garr16 	init 	0
+garl17 	init 	0
+garr17 	init 	0
+garl18 	init 	0
+garr18 	init 	0
+garl19 	init 	0
+garr19 	init 	0
 
 garl101 init 	0
 garr101 init 	0
@@ -162,13 +174,14 @@ icmb 	= p7
 iatk 	= .01
 idec 	= .01
 irel 	= .04
+isus 	= .6
 ipanr 	= 1-ipanl
 idfn 	= 4
 idist1 	= 0
 idist2 	= 1
 
-kenv 	adsr 	iatk, idec, iamp, irel
-asig 	rand 	kenv
+kenv 	adsr 	iatk, idec, isus, irel
+asig 	rand 	kenv*iamp
 kdist 	line 	idist1, idur, idist2
 aout 	distort asig, kdist, idfn
 	outs  	aout*ipanl, aout*ipanr
@@ -179,7 +192,7 @@ garl04 	= 	aout*ipanl
 garr04 	= 	aout*ipanr
 	endin
 
-	instr 5; String
+	instr 5; String Reverb Only
 
 idur 	= p3
 iamp 	= p4
@@ -480,8 +493,145 @@ garr13 	= 	aout
 
 	endin
 
+	instr 14; Snare
+
+idur 	= p3
+iamp 	= p4
+ifrq1 	= cpspch(p5)
+ifrq2 	= cpspch(p6)
+ipanl 	= p7
+
+ipanr 	= 1-ipanl
+iatk 	= .02
+idec 	= .02
+isus 	= .2
+irel 	= .04
+ifn 	= 4
+
+kfrq 	line 	ifrq1, idur, ifrq2
+kenv 	adsr 	iatk, idec, isus, irel
+aout 	oscil 	iamp*kenv, kfrq, ifn
+	outs 	aout*ipanl, aout*ipanr
+
+garl14 	= 	aout*ipanl
+garr14 	= 	aout*ipanr
+
+	endin
+
+	instr 15; BG Oscil Ambient
+
+
+idur 	= p3
+iamp 	= p4
+ifrq 	= cpspch(p5)
+irise 	= p6
+idec 	= p7
+ilamp 	= p8
+ilcps 	= p9 
+ifil	= p10
+
+itype 	= 0
+ifn 	= 1
+
+kcps 	lfo 	ilamp, ilcps, itype
+kenv 	linen 	iamp, irise, idur, idec
+asig 	oscil 	kenv, ifrq+kcps, ifn
+aout 	butlp 	asig, ifil
+	outs 	aout, aout
+
+garl15 	= 	aout
+garr15 	= 	aout
+
+	endin
+
+	instr 16; String
+
+idur 	= p3
+iamp 	= p4
+kcps 	= cpspch(p5)
+icps 	= cpspch(p6)
+
+iatk 	= .1
+idec 	= .1
+isus 	= .7
+irel 	= .1
+ifn 	= 0
+imeth 	= 1
+ilamp 	= .5
+ilcps 	= 4
+irvb 	= .4
+
+klcps 	lfo 	ilamp, ilcps
+kenv 	adsr 	iatk, idec, isus, irel
+asig 	pluck 	iamp*kenv, kcps+klcps, icps, ifn, imeth
+	outs 	asig, asig
+garvb 	= 	garvb+(asig*irvb)
+
+garl16 	= 	asig
+garr16 	= 	asig
+	endin
+
+	instr 17; Oscil FRQ rise
+
+idur 	= p3
+iamp 	= p4
+ifrq 	= cpspch(p5)
+ifn 	= p6
+
+iamp1	= 0
+irise 	= 1.4
+idec 	= .2
+
+kenv 	linen 	iamp, irise, idur, idec
+aout 	oscil 	kenv, ifrq, ifn
+	outs 	aout, aout
+
+garl17 	= 	aout
+garr17 	= 	aout
+	endin
+
+	instr 18; Rumble
+
+idur 	= p3
+iamp 	= p4
+itype 	= p5
+icps1 	= p6
+icps2 	= p7
+
+ipana 	= 1
+ipanf 	= .5
+
+kcps 	expon 		icps1, idur, icps2
+krange 	lfo 		iamp, kcps, itype
+aout 	bexprnd 	krange
+kpan 	lfo 		ipana, ipanf
+	outs 		aout*kpan, aout*(1-kpan)
+
+garl18 	= 	aout*kpan
+garr18 	= 	aout*(1-kpan)
+	endin
+
+	instr 19; Oscil FRQ rise
+
+idur 	= p3
+iamp 	= p4
+ifrq 	= cpspch(p5)
+
+ifn 	= 1
+irise 	= 1.4
+idec 	= .2
+
+kenv 	linen 	iamp, irise, idur, idec
+aout 	oscil 	kenv, ifrq, ifn
+	outs 	aout, aout
+
+garl19 	= 	aout
+garr19 	= 	aout
+	endin
+
 	instr 100; Stem Generator
-itype 	= 18
+
+	itype 	= 18
 
 	fout 	"stems/001.wav", itype, garl01, garr01
 	fout 	"stems/002.wav", itype, garl02, garr02
@@ -496,6 +646,12 @@ itype 	= 18
 	fout 	"stems/011.wav", itype, garl11, garr11
 	fout 	"stems/012.wav", itype, garl12, garr12
 	fout 	"stems/013.wav", itype, garl13, garr13
+	fout 	"stems/014.wav", itype, garl14, garr14
+	fout 	"stems/015.wav", itype, garl15, garr15
+	fout 	"stems/016.wav", itype, garl16, garr16
+	fout 	"stems/017.wav", itype, garl17, garr17
+	fout 	"stems/018.wav", itype, garl18, garr18
+	fout 	"stems/019.wav", itype, garl19, garr19
 
 	fout 	"stems/101.wav", itype, garl101, garr101
 	fout 	"stems/102.wav", itype, garl102, garr102
@@ -513,6 +669,13 @@ itype 	= 18
 	clear 	garl10, garr10
 	clear 	garl11, garr11
 	clear 	garl12, garr12
+	clear 	garl13, garr13
+	clear 	garl14, garr14
+	clear 	garl15, garr15
+	clear 	garl16, garr16
+	clear 	garl17, garr17
+	clear 	garl18, garr18
+	clear 	garl19, garr19
 
 	clear 	garl101, garr101
 	clear 	garl102, garr102

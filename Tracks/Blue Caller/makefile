@@ -11,8 +11,4 @@ test: main.flac
 	mpv main.flac
 
 clean: 
-	rm *.wav || \
-	rm stems/*.wav || \
-	rm *.flac || \
-	rm *.mp3 || \
-	rm .*.swp
+	rm stems/*.wav *.wav *.flac *.mp3 .*.swp
