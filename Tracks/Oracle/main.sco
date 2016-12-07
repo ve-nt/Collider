@@ -17,7 +17,7 @@ i101 	0	320	1.5	.1
 i102	0	320	3.3	1
 
 ; Stem Generation
-i100 	0 	386
+i100 	0 	388
 
 { 12 A
 ; BG Oscil Ambient
