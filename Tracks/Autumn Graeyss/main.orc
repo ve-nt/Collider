@@ -308,6 +308,7 @@ ispmix	=	p10		; Spring mix
 ispq	=	p11		; Spring Q
 ipbnd	=	p12		; Pitch bend
 ipbtm	=	p13		; Pitch bend time
+irvb 	= 	p14
 
 ipanr	=	1-p6		; Pan right
 
@@ -348,12 +349,14 @@ ahpr   pareq    ahp1r+ahp2r*.7+ahp3r*.3, 15000, .1, .707, 2 ; Attenuate the high
 
 
 ; Mix drum tones, pulse and noise signal & declick
-aoutl 	=         (asig1+asig2+aosc2*.1+ahpl*ispmix*4)*iamp*kdclk 
-aoutr  	=         (asig1+asig2+aosc2*.1+ahpr*ispmix*4)*iamp*kdclk 
-       	outs      aoutl*ipanl, aoutr*ipanr              ; Output the sound
+aoutl 	=         (asig1+asig2+aosc2*.1+ahpl*ispmix*4)*iamp*kdclk*ipanl
+aoutr  	=         (asig1+asig2+aosc2*.1+ahpr*ispmix*4)*iamp*kdclk*ipanr 
+       	outs      aoutl, aoutr		; Output the sound
 
-garl09 	= 	aoutl*ipanl
-garr09 	= 	aoutr*ipanr
+garl09 	= 	aoutl
+garr09 	= 	aoutr
+
+garvb 	= 	garvb+((aoutl+aoutr)*irvb)
 
        endin
 
@@ -590,7 +593,7 @@ garl17 	= 	aout
 garr17 	= 	aout
 	endin
 
-	instr 18; Rumble
+	instr 18; Helicopter
 
 idur 	= p3
 iamp 	= p4
@@ -660,6 +663,52 @@ arampsig  	=         kamp * afilt
           	outs      arampsig * ibalance, arampsig * (1 - ibalance)
 garvb 		=         garvb + arampsig * p9
           endin
+
+	instr 22; Pinkish Noise Pitch Bent
+
+idur 	= p3
+iamp 	= p4
+inum	= p5
+
+iatk 	= .03
+idec 	= .03
+isus	= .4
+irel 	= .04
+imethod = 0
+
+kenv 	adsr 	iatk, idec, isus, irel
+asig	pinkish kenv*iamp, imethod, inum
+	outs 	asig, asig
+
+
+        endin
+
+	instr 23; String 
+
+idur 	= p3
+iamp 	= p4
+kcps 	= cpspch(p5)
+icps 	= cpspch(p6)
+
+iatk 	= .1
+idec 	= .1
+isus 	= .7
+irel 	= .1
+ifn 	= 0
+imeth 	= 1
+ilamp 	= .005
+ilcps 	= .5
+irvb 	= 1
+
+klcps 	lfo 	ilamp, ilcps
+kenv 	adsr 	iatk, idec, isus, irel
+asig 	pluck 	iamp*kenv, kcps+klcps, icps, ifn, imeth
+	outs 	asig, asig
+garvb 	= 	garvb+(asig*irvb)
+
+garl05 	= 	asig
+garr05 	= 	asig
+	endin
 
 	instr 100; Stem Generator
 
