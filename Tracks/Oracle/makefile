@@ -5,7 +5,10 @@ main.wav: main.orc main.sco
 	csound -3 -o main.wav main.orc main.sco
 
 main.flac: main.wav
-	flac -f main.wav main.flac
+	ffmpeg -i main.wav main.flac
+
+main.mp3: main.wav
+	ffmpeg -i main.wav main.mp3
 
 test: main.flac
 	mpv main.flac
